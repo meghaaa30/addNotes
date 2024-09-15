@@ -59,10 +59,7 @@ function Notes() {
                                     <label htmlFor="description" className="form-label">Description</label>
                                     <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} onChange={onChange} minLength={5} required/>
                                 </div>
-                                <div className="mb-3">
-                                    <label htmlFor="tag" className="form-label">Tag</label>
-                                    <input type="text" className="form-control" id="etag" name="etag" value={note.etag} onChange={onChange} />
-                              </div> 
+                               
                                </form>
       </div>
       <div className="modal-footer">
@@ -72,9 +69,9 @@ function Notes() {
     </div>
   </div>
   </div>
-            <div classNameName="row my-3">
+            <div className="row my-3">
                 <h2>Your Notes</h2>
-                <div classNameName="container mx-2"> 
+                <div className="container mx-2"> 
                 {notes.length===0 && 'No notes to display'}
                 </div>
                 {notes.map((note) => {
