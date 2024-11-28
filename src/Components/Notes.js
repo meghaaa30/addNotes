@@ -8,19 +8,14 @@ function Notes() {
 
     const context = useContext(noteContext)
     const {notes, getNotes, editNote} = context
-    useEffect(()=>{
-        getNotes()
-    },[])
-    
+    useEffect(() => {
+      getNotes();
+    }, [getNotes]);
+  
+
     const ref = useRef(null)
     const refClose = useRef(null)
     const [note, setNote] = useState({id: "", etitle: "", edescription: "", etag: ""})
-
-    const updateNote  = (currentNote) => {
-        
-        ref.current.click();
-        setNote({id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag:currentNote.tag})
-    }
 
     const handleClick = (e)=>{ 
         editNote(note.id, note.etitle, note.edescription, note.etag)
@@ -59,7 +54,10 @@ function Notes() {
                                     <label htmlFor="description" className="form-label">Description</label>
                                     <input type="text" className="form-control" id="edescription" name="edescription" value={note.edescription} onChange={onChange} minLength={5} required/>
                                 </div>
-                               
+                                <div className="mb-3">
+                                    <label htmlFor="tag" className="form-label">Tag</label>
+                                    <input type="text" className="form-control" id="etag" name="etag" value={note.etag} onChange={onChange} />
+                              </div> 
                                </form>
       </div>
       <div className="modal-footer">
@@ -75,7 +73,7 @@ function Notes() {
                 {notes.length===0 && 'No notes to display'}
                 </div>
                 {notes.map((note) => {
-                    return <NoteItems key={note._id} updateNote ={updateNote} note={note} />
+                    return <NoteItems key={note._id} note={note} />
                 })}
             </div>
         </>

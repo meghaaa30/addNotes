@@ -44,26 +44,7 @@ router.post('/addnote', [
     }
 });
 
-// ROUTE 3: Update a Note
-router.put('/updatenote/:id', async (req, res) => {
-    const { title, description } = req.body;
-    try {
-        const newNote = {};
-        if (title) newNote.title = title;
-        if (description) newNote.description = description;
-
-        let note = await Note.findById(req.params.id);
-        if (!note) return res.status(404).send("Not Found");
-
-        note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
-        res.json({ note });
-    } catch (error) {
-        console.error('Error updating note:', error.message);
-        res.status(500).send("Internal Server Error");
-    }
-});
-
-// ROUTE 4: Delete a Note
+// ROUTE 3: Delete a Note
 router.delete('/delete/:id', async (req, res) => {
     try {
         let note = await Note.findById(req.params.id);
@@ -73,6 +54,20 @@ router.delete('/delete/:id', async (req, res) => {
         res.json({ "Success": "Note has been deleted", note });
     } catch (error) {
         console.error('Error deleting note:', error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.put('/update/:id', async (req, res) => {
+    try{
+        let note= await Note.findById(req.params.id);
+        if (!note) return res.status(404).send("Not Found");
+
+        note = await Note.findByIdAndUpdate(req.params.id, req.body,  {new: true, runValidators: true});
+        res.json({ "Success": "Note has been updated", note });
+    }
+    catch (error) {
+        console.error('Error updating the note:', error.message);
         res.status(500).send("Internal Server Error");
     }
 });
